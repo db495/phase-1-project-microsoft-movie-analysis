@@ -83,8 +83,11 @@ def release_and_closing_dates (soup):
     opening_dates_clean = []
     closing_dates_clean = []
     months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    month_dic = {month:f"{datetime.datetime.strptime(month, '%b').month:02}" for month in months}
-    
+    month_dict = {month:f"{datetime.datetime.strptime(month, '%b').month:02}" for month in months}
+   
+    for key, value in month_dict.items():
+       opening_dates_clean = [re.sub(key, value, date) for date in opening_dates]
+    print(opening_dates_clean)
     
 # WIP to get the cleaned versions of dates
             
