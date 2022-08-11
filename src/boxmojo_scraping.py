@@ -3,14 +3,12 @@
 
 import requests
 from bs4 import BeautifulSoup as BS
-import requests
-from datetime import datetime
 import re
 
 
 #url request. Must insert url with quotations "url"
-def request_func (url):
-    page = requests.get(url)
+def html_parser(url):
+    page_data = requests.get(url)
     soup = BS(page.content, 'html.parser')
     return soup
   
@@ -66,19 +64,7 @@ def release_and_closing_dates (soup):
                 closing_dates.append(record.string)
             except:
                 closing_dates.append('NAN')
-        i += 1
-            
-  #  opening_dates_clean = []
- #   closing_dates_clean = []
- #   months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
- #   month_dict = {month:f"{datetime.strptime(month, '%b').month:02}" for month in months}
-   
- #    for key, value in month_dict.items():
-#        opening_dates_clean = [re.sub(key, value, date) for date in opening_dates]
-#    print(opening_dates_clean)
-    
-# WIP to get the cleaned versions of dates
-            
+        i += 1            
     return opening_dates, closing_dates
 
 # This function creates a tuple to combine all the different pieces of data extracted together, so it can be inserted into a database and written out to a dataframe. 
@@ -93,7 +79,7 @@ def create_tuples(movie_titles, all_opening_figures, release_and_closing_dates, 
 
 # This is the main function which joins all the previous supporting functions together and runs them in sequence to create a full database with all the relevant records in it
 def extract_opening_weekend_data (url, year):
-    soup = request_func(url)
+    soup = html_parser(url)
     movie_title = movie_titles(soup)
     all_opening_figures = opening_weekend_gross(soup)
     opening_closing_dates = release_and_closing_dates(soup)
