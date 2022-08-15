@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup as BS
 import re
 
 
-#url request. Must insert url with quotations "url"
+# This function used beautiful soup to parse a website of the html to be used for webscraping later on
 def html_parser(url):
     page_data = requests.get(url)
     soup = BS(page.content, 'html.parser')
@@ -20,7 +20,7 @@ def movie_titles (soup):
         try:
             movie_titles.append(name.string)
         except:
-            movie_titles.append('NAN')
+            movie_titles.append('NULL')
             continue
     return movie_titles
   
@@ -43,7 +43,7 @@ def opening_weekend_gross (soup):
         if type(record) == int:
             all_opening_figures.append(record)
         else:
-            all_opening_figures.append('NAN')
+            all_opening_figures.append('NULL')
             continue
     return all_opening_figures
   
@@ -58,12 +58,12 @@ def release_and_closing_dates (soup):
             try:
                 opening_dates.append(record.string)
             except:
-                opening_dates.append('NAN')
+                opening_dates.append('NULL')
         else:
             try:
                 closing_dates.append(record.string)
             except:
-                closing_dates.append('NAN')
+                closing_dates.append('NULL')
         i += 1            
     return opening_dates, closing_dates
 
